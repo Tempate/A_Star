@@ -1,0 +1,52 @@
+Stop 1,Stop 2,Duration
+Egaleo,Eleonas,2
+Eleonas,Kerameikos,2
+Kerameikos,Monastiraki,2
+Monastiraki,Syntagma,3
+Syntagma,Evangelismos,1
+Evangelismos,Megaro Moussinis,2
+Megaro Moussinis,Ambelokipi,2
+Ambelokipi,Panormu,1
+Panormu,Katehaki,1
+Katehaki,Ethniki Amnya,2
+Ethniki Amnya,Holargos,2
+Holargos,Nomismatokopio,2
+Nomismatokopio,Agia Paraskevi,1
+Agia Paraskevi,Holandri,2
+Holandri,Doukissis Plakentias,1
+Aghios Antonios,Sepolia,2
+Sepolia,Attiki,2
+Attiki,Larissa Station,2
+Larissa Station,Metaxourghio,2
+Metaxourghio,Omonia,2
+Omonia,Panepistimio,1
+Panepistimio,Syntagma,2
+Syntagma,Akropoli,1
+Akropoli,Sygrou,2
+Sygrou,Neos Kosmos,1
+Neos Kosmos,Aghios Ioannis,2
+Aghios Ioannis,Dafni,1
+Dafni,Aghios Dimitrios,2
+Piraeus,Faliro,3
+Faliro,Moschato,3
+Moschato,Kallithea,3
+Kallithea,Tavros,1
+Tavros,Petralona,2
+Petralona,Thissio,3
+Thissio,Monastiraki,1
+Monastiraki,Omonia,3
+Omonia,Viktoria,2
+Viktoria,Attiki,3
+Attiki,Aghios Nikolaos,2
+Aghios Nikolaos,Kato Patissia,1
+Kato Patissia,Aghios Eleftherios,4
+Aghios Eleftherios,Ano Patissia,2
+Ano Patissia,Perissos,2
+Perissos,Pefkakia,2
+Pefkakia,Nea Ionia,1
+Nea Ionia,Iraklio,3
+Iraklio,Irini,2
+Irini,Neratziotissa,2
+Neratziotissa,Maroussi,3
+Maroussi,Kat,3
+Kat,Kifissia,2
