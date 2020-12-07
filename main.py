@@ -1,4 +1,5 @@
 from optparse import OptionParser
+
 from core.a_star import A_Star
 
 import json
@@ -6,6 +7,7 @@ import json
 
 def main():
     graph = parse_graph_json(read_commands())
+
     a_star = A_Star(graph, "Holargos", "Irini")
     a_star.run()
 
