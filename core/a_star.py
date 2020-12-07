@@ -2,7 +2,7 @@ from api.node import Node
 from .gui import Gui
 
 
-TRANSSHIPMENT_PENALTY = 6
+TRANSSHIPMENT_PENALTY = 0
 
 
 class A_Star:
@@ -20,8 +20,7 @@ class A_Star:
         while self.stack:
             node = self.stack.pop(0)
 
-            if not self.parent_in_stack(node.parent):
-                self.visited.append(node.parent)
+            self.visited.append(node)
 
             # If the current node is the target node, stop looking
             if node == self.target:
