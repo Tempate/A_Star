@@ -14,6 +14,7 @@ for stop in coordinates["Paradas"]:
     data[stop] = {
         "x": int(stop_data["x"].iloc[0]), 
         "y": int(stop_data["y"].iloc[0]),
+        "color": stop_data["Color"].iloc[0],
         "edges": []
     }
 
