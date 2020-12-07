@@ -8,9 +8,9 @@ class Gui:
 
     def draw_graph(self, path, permanent=False):
         lines = {
-            "red": ['Aghios Antonios', 'Sepolia', 'Attiki', 'Larissa Station', 'Metaxourghio', 'Omonia', 'Panepistimio', 'Syntagma', 'Akropoli', 'Sygrou', 'Neos Kosmos', 'Aghios Ioannis', 'Dafni', 'Aghios Dimitrios'],
-            "blue": ['Egaleo', 'Eleonas', 'Kerameikos', 'Monastiraki', 'Syntagma', 'Evangelismos', 'Megaro Moussinis', 'Ambelokipi', 'Panormu', 'Katehaki', 'Ethniki Amnya', 'Holargos', 'Nomismatokopio', 'Agia Paraskevi', 'Holandri', 'Doukissis Plakentias'],
-            "green": ['Piraeus', 'Faliro', 'Moschato', 'Kallithea', 'Tavros', 'Petralona', 'Thissio', 'Monastiraki', 'Omonia', 'Viktoria', 'Attiki', 'Aghios Nikolaos', 'Kato Patissia', 'Aghios Eleftherios', 'Ano Patissia', 'Perissos', 'Pefkakia', 'Nea Ionia', 'Iraklio', 'Irini', 'Neratziotissa', 'Maroussi', 'Kat', 'Kifissia']
+            "red": ['Aghios Antonios', 'Sepolia', 'Attiki(red)', 'Larissa Station', 'Metaxourghio', 'Omonia(red)', 'Panepistimio', 'Syntagma(blue)', 'Akropoli', 'Sygrou', 'Neos Kosmos', 'Aghios Ioannis', 'Dafni', 'Aghios Dimitrios'],
+            "blue": ['Egaleo', 'Eleonas', 'Kerameikos', 'Monastiraki(blue)', 'Syntagma(blue)', 'Evangelismos', 'Megaro Moussinis', 'Ambelokipi', 'Panormu', 'Katehaki', 'Ethniki Amnya', 'Holargos', 'Nomismatokopio', 'Agia Paraskevi', 'Holandri', 'Doukissis Plakentias'],
+            "green": ['Piraeus', 'Faliro', 'Moschato', 'Kallithea', 'Tavros', 'Petralona', 'Thissio', 'Monastiraki(green)', 'Omonia(green)', 'Viktoria', 'Attiki(green)', 'Aghios Nikolaos', 'Kato Patissia', 'Aghios Eleftherios', 'Ano Patissia', 'Perissos', 'Pefkakia', 'Nea Ionia', 'Iraklio', 'Irini', 'Neratziotissa', 'Maroussi', 'Kat', 'Kifissia']
         }
 
         for color in lines.keys():
@@ -28,7 +28,6 @@ class Gui:
             plt.draw()
             plt.pause(0.001)
             plt.clf()
-
 
 
     def get_rect(self, stations):

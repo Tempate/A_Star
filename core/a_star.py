@@ -2,7 +2,7 @@ from api.node import Node
 from .gui import Gui
 
 
-TRANSSHIPMENT_PENALTY = 0
+TRANSSHIPMENT_PENALTY = 6
 
 
 class A_Star:
@@ -13,12 +13,13 @@ class A_Star:
         self.origin = Node(origin, graph[origin]["x"], graph[origin]["y"])
         self.target = Node(target, graph[target]["x"], graph[target]["y"])
 
-        self.stack = [self.origin]
+        self.queue = [self.origin]
         self.visited = []
 
+
     def run(self):
-        while self.stack:
-            node = self.stack.pop(0)
+        while self.queue:
+            node = self.queue.pop(0)
 
             self.visited.append(node)
 
@@ -34,34 +35,38 @@ class A_Star:
                 new_weight = self.calc_new_weight(node, child, weight)
 
                 if child in self.visited:
-                    continue
+                    child = find_node(self.visited, child.name)
 
-                if child not in self.stack:
-                    self.update_node_in_stack(child, node, new_weight, is_new=True)
-                else:
+                    if child.g > new_weight:
+                        self.visited.remove(child)
+                        self.update_node_in_queue(child, node, new_weight, is_new=True)
+                elif child in self.queue:
                     # Update the weight if it's better than the current one
-                    child = find_node(self.stack, child.name)
+                    child = find_node(self.queue, child.name)
 
                     if child.g > new_weight: # Being the same node, h is the same too
-                        self.update_node_in_stack(child, node, new_weight)
+                        self.update_node_in_queue(child, node, new_weight)
+                else:
+                    self.update_node_in_queue(child, node, new_weight, is_new=True)
+
           
         self.show(find_node(self.visited, self.target.name))
         
 
-    def update_node_in_stack(self, node, parent, weight, is_new=False):
+    def update_node_in_queue(self, node, parent, weight, is_new=False):
         node.g = weight
         node.estimate_path_length(self.target)
 
         node.parent = parent
 
         if is_new:
-            self.stack.append(node)
+            self.queue.append(node)
                       
-        self.stack.sort(key = lambda node: node.f)
+        self.queue.sort(key = lambda node: node.f)
 
 
-    def parent_in_stack(self, parent):
-        for node in self.stack:
+    def parent_in_queue(self, parent):
+        for node in self.queue:
             if node.parent == parent:
                 return True
 
@@ -71,23 +76,10 @@ class A_Star:
     def calc_new_weight(self, node, child, weight):
         new_weight = node.g + weight
 
-        if self.is_transshipment(node, child):
+        if self.graph[node.name]["color"] != self.graph[child.name]["color"]:
             new_weight += TRANSSHIPMENT_PENALTY
 
         return new_weight
-
-
-    def is_transshipment(self, node, child):
-        if not node.parent:
-            return False
-
-        colors = self.graph[child.name]["color"].split()
-
-        for color in colors:
-            if color in self.graph[node.name]["color"] and color in self.graph[node.parent.name]["color"]:
-                return False
-
-        return True
 
 
     def show(self, node):
