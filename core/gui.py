@@ -21,6 +21,11 @@ class Gui:
             
         
         plt.gca().invert_yaxis()
+        plt.tight_layout()
+        plt.xticks([])
+        plt.yticks([])
+        manager = plt.get_current_fig_manager()
+        manager.resize(1280,720)
 
         if permanent: 
             for node in path:
