@@ -13,17 +13,17 @@ def main():
 
 
 def read_commands():
-    parser = OptionParser("%prog -f <graph_json>")
-    parser.add_option("-f", dest="input", help="JSON file with graph")
+    parser = OptionParser("%prog -g <graph_json>")
+    parser.add_option("-g", dest="graph", help="JSON file with graph")
 
     (options, args) = parser.parse_args()
 
-    # Mostrar los ayuda si no se especifica el archivo a leer
-    if not options.input:
+    # Show help if no input graph is given
+    if not options.graph:
         parser.print_help()
         exit(0)
 
-    return options.input
+    return options.graph
 
 
 def parse_graph_json(file_name):

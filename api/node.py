@@ -17,7 +17,7 @@ class Node:
 
     def __str__(self):
         if self.parent:
-            return "Name: {0}, Parent: {1}, f: {2}".format(self.name, self.parent.name, self.f)
+            return "Name: {0}, Parent: {1}".format(self.name, self.parent.name)
         else:
             return "Name: " + self.name
 
