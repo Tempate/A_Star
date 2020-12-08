@@ -18,10 +18,13 @@ class Gui:
 
         for node in path:
             plt.plot(node.x, node.y, color="orange", marker="o", markersize=9)
+            
         
         plt.gca().invert_yaxis()
 
-        if permanent:
+        if permanent: 
+            for node in path:
+               plt.annotate(node.name,[node.x +5,node.y+20],bbox = dict(boxstyle ="round", fc ="0.8"),fontsize= 9)
             plt.ioff()
             plt.show()
         else:
