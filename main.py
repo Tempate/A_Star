@@ -6,15 +6,18 @@ import json
 
 
 def main():
-    graph = parse_graph_json(read_commands())
+    options = read_commands()
+    graph = parse_graph_json(options.graph)
 
-    a_star = A_Star(graph, "Holargos", "Irini")
+    a_star = A_Star(graph, options.origin, options.target)
     a_star.run()
 
 
 def read_commands():
     parser = OptionParser("%prog -g <graph_json>")
     parser.add_option("-g", dest="graph", help="JSON file with graph")
+    parser.add_option("-o", dest="origin", help="Station at the origin")
+    parser.add_option("-t", dest="target", help="Station at the target")
 
     (options, args) = parser.parse_args()
 
@@ -23,7 +26,7 @@ def read_commands():
         parser.print_help()
         exit(0)
 
-    return options.graph
+    return options
 
 
 def parse_graph_json(file_name):
