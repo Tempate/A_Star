@@ -10,21 +10,35 @@ class A_Star:
         self.graph = graph
         self.gui = Gui(graph)
 
-        self.origin = Node(origin, graph[origin]["x"], graph[origin]["y"])
-        self.target = Node(target, graph[target]["x"], graph[target]["y"])
+        # We find one of the names of the station to get the coordinates
+        target_name = self.get_names_for_station(target)[0]
+        self.target = Node(target, graph[target_name]["x"], graph[target_name]["y"])
 
-        self.queue = [self.origin]
+        self.queue = []
         self.visited = []
+
+        # Start the queue with the origin station
+        # As it may have different names, if it's an intersection,
+        # it can get added multiple times, with initial cost 0
+        for name in self.get_names_for_station(origin):
+            self.queue.append(Node(name, graph[name]["x"], graph[name]["y"]))
+
+
+    def get_names_for_station(self, station):
+        return [name for name in self.graph.keys() if station == name.split('(')[0]]
 
 
     def run(self):
-        while self.queue:
-            node = self.queue.pop(0)
+        node = None
 
+        while self.queue:
+            node = min(self.queue, key = lambda node: node.f)
+            
+            self.queue.remove(node)
             self.visited.append(node)
 
             # If the current node is the target node, stop looking
-            if node == self.target:
+            if node.name.split('(')[0] == self.target.name:
                 break
 
             self.gui.draw_graph(path(node))
@@ -32,54 +46,50 @@ class A_Star:
             for weight, name in self.graph[node.name]["edges"]:
 
                 child = Node(name, self.graph[name]["x"], self.graph[name]["y"])
-                new_weight = self.calc_new_weight(node, child, weight)
+                cost = self.calculate_cost(node, child, weight)
 
                 if child in self.visited:
+                    # Update the weight of a visited node
+                    # The children will get updated when the new node pops out of the queue
                     child = find_node(self.visited, child.name)
 
-                    if child.g > new_weight:
+                    if child.g > cost:
+                        self.update_node_in_queue(child, node, cost, is_new=True)
                         self.visited.remove(child)
-                        self.update_node_in_queue(child, node, new_weight, is_new=True)
                 elif child in self.queue:
-                    # Update the weight if it's better than the current one
+                    # Update the weight of a queued node
                     child = find_node(self.queue, child.name)
 
-                    if child.g > new_weight: # Being the same node, h is the same too
-                        self.update_node_in_queue(child, node, new_weight)
+                    if child.g > cost: # Being the same node, h is preserved
+                        self.update_node_in_queue(child, node, cost)
                 else:
-                    self.update_node_in_queue(child, node, new_weight, is_new=True)
+                    # Add the new node to the queue
+                    self.update_node_in_queue(child, node, cost, is_new=True)
 
           
-        self.show(find_node(self.visited, self.target.name))
+        if node.x != self.target.x or node.y != self.target.y:
+            raise ValueError("The target is inaccessible")
+
+        self.show(node)
         
 
-    def update_node_in_queue(self, node, parent, weight, is_new=False):
-        node.g = weight
+    def calculate_cost(self, node, child, weight):
+        cost = node.g + weight
+
+        if self.graph[node.name]["color"] != self.graph[child.name]["color"]:
+            cost += TRANSSHIPMENT_PENALTY
+
+        return cost
+
+
+    def update_node_in_queue(self, node, parent, cost, is_new=False):
+        node.g = cost
         node.estimate_path_length(self.target)
 
         node.parent = parent
 
         if is_new:
             self.queue.append(node)
-                      
-        self.queue.sort(key = lambda node: node.f)
-
-
-    def parent_in_queue(self, parent):
-        for node in self.queue:
-            if node.parent == parent:
-                return True
-
-        return False
-
-
-    def calc_new_weight(self, node, child, weight):
-        new_weight = node.g + weight
-
-        if self.graph[node.name]["color"] != self.graph[child.name]["color"]:
-            new_weight += TRANSSHIPMENT_PENALTY
-
-        return new_weight
 
 
     def show(self, node):
@@ -105,6 +115,7 @@ def path(node):
 
 
 def find_node(nodes, name):
+    """ Find a node in a list of nodes """
     for node in nodes:
         if node.name == name:
             return node
